@@ -31,6 +31,44 @@ from engine.transport_layer.response import RESTLER_INVALID_CODE
 from utils.logger import raw_network_logging as RAW_LOGGING
 from utils.logger import custom_network_logging as CUSTOM_LOGGING
 from utils.logging.trace_db import SequenceTracker
+import json
+import os
+
+# Function to convert a list to JSON with index keys, values, and an additional parameter
+def list_to_json(values, outer_param):
+    json_obj = {str(i): value for i, value in enumerate(values)}
+    json_obj["response_code"] = outer_param
+    return json_obj
+
+# Function to append a list's JSON representation to a file if outer_param is not already present
+def store_list_to_json(values, outer_param, filename):
+    new_json = list_to_json(values, outer_param)
+    filename = os.path.join(logger.DYNAMIC_VALUES_DIR,filename)
+    # Check if file exists
+    if not os.path.isfile(filename):
+        # Initialize the file with an empty array if it doesn't exist
+        with open(filename, 'w') as file:
+            json.dump([], file)
+    
+    # Read existing data
+    with open(filename, 'r') as file:
+        data = json.load(file)
+    
+    # Create a set of existing outer_param values
+    outer_param_set = {item["response_code"] for item in data}
+    
+    # Check if outer_param already exists
+    if outer_param in outer_param_set:
+        #print(f"'{outer_param}' already exists in the JSON file. Not appending.")
+        return
+    
+    # Append new data
+    data.append(new_json)
+
+    # Write updated data back to file
+    with open(filename, 'w') as file:
+        json.dump(data, file, indent=4)
+    #print(f"Appended new data with outer_param '{outer_param}' to the JSON file.")
 
 AUTHORIZATION_TOKEN_PLACEHOLDER = 'AUTHORIZATION TOKEN'
 
@@ -476,7 +514,7 @@ class Sequence(object):
             response_datetime_str = None
             for i in range(len(self.requests) - 1):
                 prev_request = self.requests[i]
-                prev_rendered_data, prev_parser, tracked_parameters, updated_writer_variables, replay_blocks =\
+                prev_rendered_data, prev_parser, tracked_parameters, updated_writer_variables, replay_blocks,mutated_values =\
                                 prev_request.render_current(candidate_values_pool,
                                                             preprocessing=preprocessing,
                                                             use_last_cached_rendering=True)
@@ -509,7 +547,8 @@ class Sequence(object):
 
                     sequence_failed = True
                     break
-
+                else:
+                    store_list_to_json(mutated_values,prev_response.status_code,request.hex_definition)
                 if parser_threw_exception:
                     logger.write_to_main("Error: Parser exception occurred during valid sequence re-rendering.\n")
                     sequence_failed = True
@@ -577,7 +616,7 @@ class Sequence(object):
 
         response_datetime_str = None
         timestamp_micro = None
-        for rendered_data, parser, tracked_parameters, updated_writer_variables, replay_blocks in\
+        for rendered_data, parser, tracked_parameters, updated_writer_variables, replay_blocks, mutated_values in\
                 request.render_iter(candidate_values_pool,
                                     skip=request._current_combination_id,
                                     preprocessing=preprocessing):
@@ -639,7 +678,8 @@ class Sequence(object):
             if response.has_bug_code():
                 BugBuckets.Instance().update_bug_buckets(
                     self, response.status_code, lock=lock)
-
+            else:
+                store_list_to_json(mutated_values,response._status_code,request.hex_definition)
             # register latest client/server interaction
             self.status_codes.append(status_codes_monitor.RequestExecutionStatus(timestamp_micro,
                                                                                  request.hex_definition,
