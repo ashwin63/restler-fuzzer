@@ -1,3 +1,3 @@
 {
-        "custom_value_generators": "/Users/ashwin/Desktop/test/restler/restler-fuzzer/generator.py"
+        "custom_value_generators": "/Users/ashwin/Desktop/test/restler_modified_generator/restler-fuzzer/restler/restler_bin/generator.py"
 }
