@@ -1014,7 +1014,7 @@ class Request(object):
                 values = [primitives.restler_refreshable_authentication_token]
             # Handle all the rest
             else:
-                values = candidate_values_pool.get_fuzzable_values(primitive_type, default_val, self._request_id, quoted, examples)
+                values = candidate_values_pool.get_fuzzable_values(primitive_type, default_val, self._request_id, quoted, examples = self)
                 if primitives.is_value_generator(values):
                     values = [(values, quoted, writer_variable)]
 
