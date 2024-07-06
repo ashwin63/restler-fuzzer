@@ -11,11 +11,11 @@ random_seed=time.time()
 random.seed(random_seed)
 EXAMPLE_ARG = "examples"
 
-def get_next_val(filename):
+def get_next_val(fuzzable_integer):
     #return subprocess.run('echo "ashwin"',capture_output= True)
     #return subprocess.run(['"ashwin" |radamsa'], capture_output=True)
     while True:
-        command = 'echo "fuzzstring" | radamsa'
+        command = 'echo ' + fuzzable_integer + ' | radamsa'
         result = subprocess.run(command, shell=True, capture_output=True)
         
         mutated_output = result.stdout.decode('utf-8', errors='ignore')
@@ -25,7 +25,8 @@ def get_next_val(filename):
         
         if filtered_output:
             return filtered_output.strip()
-def get_next_string(filename: str) -> str:
+        
+def get_next_string(fuzzable_string: str) -> str:
     """
     Generate a mutated string using Radamsa.
     
@@ -35,7 +36,7 @@ def get_next_string(filename: str) -> str:
     Returns:
     - str: The generated string.
     """
-    command = 'echo "fuzzstring" | radamsa'
+    command = 'echo '+ fuzzable_string +' | radamsa'
     result = subprocess.run(command, shell=True, capture_output=True)
     
     # Handle the output as bytes
@@ -49,7 +50,8 @@ def get_next_string(filename: str) -> str:
         # Handle non-decodable bytes (optional)
         # Example: return base64 encoded output
         return base64.b64encode(mutated_output).decode('utf-8')
-def get_next_unquoted_string(filename: str) -> str:
+    
+def get_next_unquoted_string(fuzzable_unquoted_string: str) -> str:
     """
     Generate a mutated string using Radamsa and ensure it is unquoted.
     
@@ -60,32 +62,42 @@ def get_next_unquoted_string(filename: str) -> str:
     - str: The generated unquoted string.
     """
     while True:
-        string_val = get_next_string(filename)
+        string_val = get_next_string(fuzzable_unquoted_string)
         unquoted_string = string_val.strip('"')
         return unquoted_string
-def get_next_number(filename):
+    
+def get_next_number(fuzzable_number):
     while True:
-        command = 'echo "12345" | radamsa --mutations num'  # Using a simple base number for mutations
+        command = 'echo ' + fuzzable_number +' | radamsa --mutations num'  # Using a simple base number for mutations
         result = subprocess.run(command, shell=True, capture_output=True, text=True)
         mutated_output = result.stdout.strip()
         # Filter the output to ensure it's a positive number
-        return 1
         if re.match(r'^\-?\d+$', mutated_output):  # Match integers (possibly negative)
             return mutated_output
 
 def gen_restler_fuzzable_int(**kwargs):
-    while True:
-        yield get_next_number("sample_file_name")
+    #print(kwargs["examples"].request_block)
+    if kwargs["examples"].request_block[0] == "restler_fuzzable_int":
+        while True:
+            yield get_next_val(kwargs["examples"].request_block[1])
+
 def gen_restler_fuzzable_string(**kwargs):
-    while True:
-        yield get_next_string("sample_file_name")
+    #print(kwargs["examples"].request_block)
+    if kwargs["examples"].request_block[0] == "restler_fuzzable_string":
+        while True:
+            yield get_next_string(kwargs["examples"].request_block[1])
 
 def gen_restler_fuzzable_string_unquoted(**kwargs):
-    while True:
-        yield get_next_unquoted_string("sample_file_name")
+    #print(kwargs["examples"].request_block)
+    if kwargs["examples"].request_block[0] == "restler_fuzzable_unquoted":
+        while True:
+            yield get_next_unquoted_string(kwargs["examples"].request_block[1])
+
 def gen_restler_fuzzable_number(**kwargs):
-    while True:
-        yield get_next_number("sample_file_name")
+    #print(kwargs["examples"].request_block)
+    if kwargs["examples"].request_block[0] == "restler_fuzzable_number":
+        while True:
+            yield get_next_number(kwargs["examples"].request_block[1])
     
 
 value_generators = {

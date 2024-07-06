@@ -1017,6 +1017,7 @@ class Request(object):
                 values = [primitives.restler_refreshable_authentication_token]
             # Handle all the rest
             else:
+                self.request_block = request_block
                 values = candidate_values_pool.get_fuzzable_values(primitive_type, default_val, self._request_id, quoted, examples = self)
                 if primitives.is_value_generator(values):
                     values = [(values, quoted, writer_variable)]
@@ -1156,9 +1157,7 @@ class Request(object):
             # be cached and re-used.
             value_gen_tracker = self._rendered_values_cache.value_gen_tracker
             if schema_idx not in self._rendered_values_cache._value_generators:
-                #value_generators = Request.init_value_generators(fuzzable_request_blocks, fuzzable,value_gen_tracker)
-                value_generators = Request.init_value_generators(fuzzable_request_blocks, fuzzable,
-                                                                 value_gen_tracker)
+                value_generators = Request.init_value_generators(fuzzable_request_blocks, fuzzable,value_gen_tracker)
                 self._rendered_values_cache.value_generators[schema_idx] = value_generators
             value_generators = self._rendered_values_cache.value_generators[schema_idx]
 
