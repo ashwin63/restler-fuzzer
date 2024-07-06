@@ -10,6 +10,7 @@ import functools, operator
 import collections
 import datetime
 import copy
+import os
 
 from restler_settings import Settings
 from random import Random
@@ -32,6 +33,8 @@ from enum import Enum
 from engine.transport_layer import messaging
 from urllib.parse import quote_plus as url_quote_plus
 
+Testing = True
+import json
 
 class EmptyRequestException(Exception):
     pass
@@ -1040,6 +1043,7 @@ class Request(object):
 
         return fuzzable, writer_variables, tracked_parameters
 
+    
     @staticmethod
     def init_value_generators(fuzzable_request_blocks, fuzzable, value_gen_tracker):
         value_generators = {}
@@ -1054,6 +1058,7 @@ class Request(object):
                 tmp_list[0] = value_generator
                 value_generators[idx] = tuple(tmp_list)
         return value_generators
+
 
     def render_iter(self, candidate_values_pool, skip=0, preprocessing=False, prev_rendered_values=None,
                     value_list=False, replay_blocks=False):
@@ -1111,6 +1116,7 @@ class Request(object):
             return
 
         definition = self.definition
+        hex_definition = self._hex_definition
         if not definition:
             yield []
             return
@@ -1150,13 +1156,14 @@ class Request(object):
             # be cached and re-used.
             value_gen_tracker = self._rendered_values_cache.value_gen_tracker
             if schema_idx not in self._rendered_values_cache._value_generators:
+                #value_generators = Request.init_value_generators(fuzzable_request_blocks, fuzzable,value_gen_tracker)
                 value_generators = Request.init_value_generators(fuzzable_request_blocks, fuzzable,
                                                                  value_gen_tracker)
                 self._rendered_values_cache.value_generators[schema_idx] = value_generators
             value_generators = self._rendered_values_cache.value_generators[schema_idx]
 
             combinations_pool_len = None
-            if value_generators:
+            if value_generators or Testing:
                 # Calculate the number of static combinations.  This is needed later to
                 # keep fetching dynamically generated values for every entry in the
                 # combination pool
@@ -1185,6 +1192,8 @@ class Request(object):
 
             # for each combination's values render dynamic primitives and resolve
             # dependent variables
+            # get the unique id for request.
+                #open this file and read the first index          
             for ind, values in enumerate(combinations_pool):
                 if remaining_combinations_count == 0:
                     break
@@ -1216,6 +1225,8 @@ class Request(object):
                     if next_combination >= combinations_pool_len and\
                     len(value_generators) == len(value_gen_tracker):
                         break
+                if Testing:
+                    filename = ''+req.hex_definition
 
                 dynamic_object_variables_to_update = {}
                 for val_idx, val in enumerate(values):
@@ -1276,7 +1287,7 @@ class Request(object):
                 # Save the schema for this combination.
                 self._last_rendered_schema_request = (req, is_example)
 
-                yield rendered_data, parser, tracked_parameter_values, dynamic_object_variables_to_update, replay_blocks
+                yield rendered_data, parser, tracked_parameter_values, dynamic_object_variables_to_update, replay_blocks, values
 
                 next_combination = next_combination + 1
                 remaining_combinations_count = remaining_combinations_count - 1
