@@ -907,7 +907,7 @@ class Request(object):
         # the values will be created
         tracked_parameters = {}
 
-        for request_block in req_definition:
+        for idx, request_block in enumerate(req_definition):
             primitive_type = request_block[0]
             writer_variable = None
 
@@ -1017,7 +1017,7 @@ class Request(object):
                 values = [primitives.restler_refreshable_authentication_token]
             # Handle all the rest
             else:
-                self.request_block = request_block
+                self.idx = idx
                 values = candidate_values_pool.get_fuzzable_values(primitive_type, default_val, self._request_id, quoted, examples = self)
                 if primitives.is_value_generator(values):
                     values = [(values, quoted, writer_variable)]
