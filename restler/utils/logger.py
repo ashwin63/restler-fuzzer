@@ -53,7 +53,7 @@ LOGS_DIR = None
 # Directory for bug bucket logs
 BUG_BUCKETS_DIR = None
 DELIM = "\r\n\r\n"
-
+DYNAMIC_VALUES_DIR = None
 # This is the symbol that will appear before any request in a bug bucket
 # log that should be sent as part of the replay.
 REPLAY_REQUEST_INDICATOR = '-> '
@@ -436,7 +436,9 @@ def create_experiment_dir():
     REQUEST_RENDERING_LOGS = os.path.join(LOGS_DIR, 'request_rendering.txt')
     global GARBAGE_COLLECTOR_LOGS
     GARBAGE_COLLECTOR_LOGS = os.path.join(LOGS_DIR, 'garbage_collector.txt')
-
+    global DYNAMIC_VALUES_DIR 
+    DYNAMIC_VALUES_DIR = os.path.join(EXPERIMENT_DIR,'dynamicvalues')
+    os.makedirs(DYNAMIC_VALUES_DIR)
     os.makedirs(LOGS_DIR)
 
 def build_logfile_path(logname, logType, threadId, log_num=1):
@@ -1037,6 +1039,7 @@ def print_generation_stats(req_collection, fuzzing_monitor, global_lock, final=F
 def print_gc_summary(garbage_collector):
     """ Prints the summary of garbage collection statistics.
     """
+    return
     gc_summary = OrderedDict()
     gc_summary['delete_stats'] = garbage_collector.gc_stats
     with open(os.path.join(LOGS_DIR, "gc_summary.json"), "w+", encoding='utf-8') as summary_json:
