@@ -84,10 +84,9 @@ def gen_restler_fuzzable_int(**kwargs):
         with open(filename, 'r') as file:
             data = json.load(file)
         while True:
-            yield get_next_val(data[0][kwargs["examples"].idx])
+           yield get_next_val(data[0][str(kwargs["examples"].idx)])
     else:
-        while True:
-            yield get_next_val("1")
+        yield get_next_val("1")
 
 def gen_restler_fuzzable_string(**kwargs):
     #print(kwargs["examples"].hex_definition)
@@ -96,10 +95,9 @@ def gen_restler_fuzzable_string(**kwargs):
         with open(filename, 'r') as file:
             data = json.load(file)
         while True:
-            yield get_next_string(data[0][kwargs["examples"].idx])
+            yield get_next_string(data[0][str(kwargs["examples"].idx)])
     else:
-        while True:
-            yield get_next_string("hello")
+        yield get_next_string("hello")
 
 def gen_restler_fuzzable_string_unquoted(**kwargs):
     #print(kwargs["examples"].hex_definition)
@@ -108,10 +106,9 @@ def gen_restler_fuzzable_string_unquoted(**kwargs):
         with open(filename, 'r') as file:
             data = json.load(file)
         while True:
-            yield get_next_unquoted_string(data[0][kwargs["examples"].idx])
+            yield get_next_unquoted_string(data[0][str(kwargs["examples"].idx)])
     else:
-        while True:
-            yield get_next_unquoted_string("hello")
+        yield get_next_unquoted_string("hello")
 
 def gen_restler_fuzzable_number(**kwargs):
     #print(kwargs["examples"].hex_definition)
@@ -120,10 +117,9 @@ def gen_restler_fuzzable_number(**kwargs):
         with open(filename, 'r') as file:
             data = json.load(file)
         while True:
-            yield get_next_number(data[0][kwargs["examples"].idx])
+            yield get_next_number(data[0][str(kwargs["examples"].idx)])
     else:
-        while True:
-            yield get_next_number("hello")
+        yield get_next_number("hello")
     
 
 value_generators = {
