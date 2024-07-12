@@ -602,7 +602,7 @@ def find_request_id(definition_block_data, fuzzing_requests, candidate_values_po
         blocks = definition_block_data['request_blocks']
         # Get the path and method from the blocks
         tmp_request = requests.Request(definition=blocks, requestId="temp_request")
-        request_text, _, _, _, _ = next(tmp_request.render_iter(candidate_values_pool))
+        request_text, _, _, _, _,_ = next(tmp_request.render_iter(candidate_values_pool))
 
     path_only, method = extract_http_path_and_method(request_text)
     # remove the basepath from the path
