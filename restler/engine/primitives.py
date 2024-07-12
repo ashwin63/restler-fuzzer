@@ -317,6 +317,7 @@ class CandidateValuesPool(object):
         @rtype : List or dict
 
         """
+        examples = req
         def _flatten_and_quote_candidate_values(candidate_vals):
             """ Returns a merged list of quoted and unquoted candidate values """
             # First check for dict type. This can occur if get_candidate_values
@@ -329,7 +330,7 @@ class CandidateValuesPool(object):
                 retval = candidate_vals.get_flattened_and_quoted_values(quoted)
             return retval
 
-        def get_custom_value_generator(value_generator, examples=req):
+        def get_custom_value_generator(value_generator, examples=examples):
             def value_generator_wrapper(done_tracker, generator_idx):
                 iter = value_generator(examples=examples)
                 count = 0
