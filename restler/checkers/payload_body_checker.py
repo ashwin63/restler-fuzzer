@@ -1122,7 +1122,7 @@ class PayloadBodyChecker(CheckerBase):
         cnt = 0
 
         # iterate through different value combinations
-        for rendered_data, parser,_,updated_writer_variables, replay_blocks in new_request.render_iter(
+        for rendered_data, parser,_,updated_writer_variables, replay_blocks,mutated_values in new_request.render_iter(
             self._req_collection.candidate_values_pool
         ):
             # check time budget
