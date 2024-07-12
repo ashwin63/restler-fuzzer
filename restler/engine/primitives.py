@@ -317,7 +317,7 @@ class CandidateValuesPool(object):
         @rtype : List or dict
 
         """
-        examples = req
+        #examples = req
         def _flatten_and_quote_candidate_values(candidate_vals):
             """ Returns a merged list of quoted and unquoted candidate values """
             # First check for dict type. This can occur if get_candidate_values
@@ -330,9 +330,9 @@ class CandidateValuesPool(object):
                 retval = candidate_vals.get_flattened_and_quoted_values(quoted)
             return retval
 
-        def get_custom_value_generator(value_generator, examples=examples):
+        def get_custom_value_generator(value_generator, examples=examples,req = None):
             def value_generator_wrapper(done_tracker, generator_idx):
-                iter = value_generator(examples=examples)
+                iter = value_generator(examples=examples,req = req)
                 count = 0
                 while True:
                     try:
@@ -344,7 +344,7 @@ class CandidateValuesPool(object):
                         if count == 0:
                             raise
                         # Reset the iterator
-                        iter = value_generator(examples=examples)
+                        iter = value_generator(examples=examples,req = req)
 
             return value_generator_wrapper
 
@@ -365,7 +365,7 @@ class CandidateValuesPool(object):
 
             # If there is a value generator, return it.
             if candidate_value_gen:
-                return get_custom_value_generator(candidate_value_gen, examples=examples)
+                return get_custom_value_generator(candidate_value_gen, examples=examples,req = req)
 
         if primitive_name not in candidate_values:
             print ("\n\n\n\t *** Can't get unsupported primitive: {}\n\n\n".\

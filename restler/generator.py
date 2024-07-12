@@ -11,7 +11,7 @@ import utils.logger as logger
 random_seed=time.time()
 #print(f"Value generator random seed: {random_seed}")
 random.seed(random_seed)
-EXAMPLE_ARG = "examples"
+EXAMPLE_ARG = "req"
 
 def get_next_val(fuzzable_integer):
     #return subprocess.run('echo "ashwin"',capture_output= True)
@@ -79,45 +79,45 @@ def get_next_number(fuzzable_number):
 
 def gen_restler_fuzzable_int(**kwargs):
     #print(kwargs["examples"].hex_definition)
-    filename = os.path.join(logger.DYNAMIC_VALUES_DIR,kwargs["examples"].hex_definition)
+    filename = os.path.join(logger.DYNAMIC_VALUES_DIR,kwargs[EXAMPLE_ARG].hex_definition)
     if os.path.isfile(filename):
         with open(filename, 'r') as file:
             data = json.load(file)
         while True:
-           yield get_next_val(data[0][str(kwargs["examples"].idx)])
+           yield get_next_val(data[0][str(kwargs[EXAMPLE_ARG].idx)])
     else:
         yield get_next_val("1")
 
 def gen_restler_fuzzable_string(**kwargs):
     #print(kwargs["examples"].hex_definition)
-    filename = os.path.join(logger.DYNAMIC_VALUES_DIR,kwargs["examples"].hex_definition)
+    filename = os.path.join(logger.DYNAMIC_VALUES_DIR,kwargs[EXAMPLE_ARG].hex_definition)
     if os.path.isfile(filename):
         with open(filename, 'r') as file:
             data = json.load(file)
         while True:
-            yield get_next_string(data[0][str(kwargs["examples"].idx)])
+            yield get_next_string(data[0][str(kwargs[EXAMPLE_ARG].idx)])
     else:
         yield get_next_string("hello")
 
 def gen_restler_fuzzable_string_unquoted(**kwargs):
     #print(kwargs["examples"].hex_definition)
-    filename = os.path.join(logger.DYNAMIC_VALUES_DIR,kwargs["examples"].hex_definition)
+    filename = os.path.join(logger.DYNAMIC_VALUES_DIR,kwargs[EXAMPLE_ARG].hex_definition)
     if os.path.isfile(filename):
         with open(filename, 'r') as file:
             data = json.load(file)
         while True:
-            yield get_next_unquoted_string(data[0][str(kwargs["examples"].idx)])
+            yield get_next_unquoted_string(data[0][str(kwargs[EXAMPLE_ARG].idx)])
     else:
         yield get_next_unquoted_string("hello")
 
 def gen_restler_fuzzable_number(**kwargs):
     #print(kwargs["examples"].hex_definition)
-    filename = os.path.join(logger.DYNAMIC_VALUES_DIR,kwargs["examples"].hex_definition)
+    filename = os.path.join(logger.DYNAMIC_VALUES_DIR,kwargs[EXAMPLE_ARG].hex_definition)
     if os.path.isfile(filename):
         with open(filename, 'r') as file:
             data = json.load(file)
         while True:
-            yield get_next_number(data[0][str(kwargs["examples"].idx)])
+            yield get_next_number(data[0][str(kwargs[EXAMPLE_ARG].idx)])
     else:
         yield get_next_number("hello")
     
