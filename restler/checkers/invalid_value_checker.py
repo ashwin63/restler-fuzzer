@@ -249,7 +249,7 @@ class InvalidValueChecker(CheckerBase):
 
         # Render the current request combination, but get the list of primitive
         # values before they are concatenated.
-        rendered_values, parser, tracked_parameters, updated_writer_variables, replay_blocks = \
+        rendered_values, parser, tracked_parameters, updated_writer_variables, replay_blocks,_ = \
             next(last_request.render_iter(self._req_collection.candidate_values_pool,
                                            skip=last_request._current_combination_id - 1,
                                            preprocessing=False,
