@@ -1018,7 +1018,7 @@ class Request(object):
             # Handle all the rest
             else:
                 self.idx = idx
-                values = candidate_values_pool.get_fuzzable_values(primitive_type, default_val, self._request_id, quoted, examples = self)
+                values = candidate_values_pool.get_fuzzable_values(primitive_type, default_val, self._request_id, quoted, examples,req = self)
                 if primitives.is_value_generator(values):
                     values = [(values, quoted, writer_variable)]
 

@@ -301,7 +301,7 @@ class CandidateValuesPool(object):
 
         return current_primitives
 
-    def get_candidate_values(self, primitive_name, request_id=None, tag=None, quoted=False, examples=[]):
+    def get_candidate_values(self, primitive_name, request_id=None, tag=None, quoted=False, examples=[],req = None):
         """ Return feasible values for a given primitive.
 
         @param primitive_name: The primitive whose feasible values we wish to fetch.
@@ -329,7 +329,7 @@ class CandidateValuesPool(object):
                 retval = candidate_vals.get_flattened_and_quoted_values(quoted)
             return retval
 
-        def get_custom_value_generator(value_generator, examples=examples):
+        def get_custom_value_generator(value_generator, examples=req):
             def value_generator_wrapper(done_tracker, generator_idx):
                 iter = value_generator(examples=examples)
                 count = 0
@@ -385,7 +385,7 @@ class CandidateValuesPool(object):
         except KeyError:
             raise CandidateValueException
 
-    def get_fuzzable_values(self, primitive_type, default_value, request_id=None, quoted=False, examples=[]):
+    def get_fuzzable_values(self, primitive_type, default_value, request_id=None, quoted=False, examples=[],req = None):
         """ Return list of fuzzable values with a default value (specified)
         in the front of the list.
 
@@ -408,7 +408,7 @@ class CandidateValuesPool(object):
 
         """
         candidate_values = self.get_candidate_values(primitive_type, request_id,
-                                                     quoted=quoted, examples=examples)
+                                                     quoted=quoted, examples=examples,req= req)
         # If the values are dynamically generated, return the generator
         if is_value_generator(candidate_values):
             return candidate_values
