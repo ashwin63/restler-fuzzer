@@ -1162,7 +1162,7 @@ class Request(object):
             value_generators = self._rendered_values_cache.value_generators[schema_idx]
 
             combinations_pool_len = None
-            if value_generators or Testing:
+            if value_generators:
                 # Calculate the number of static combinations.  This is needed later to
                 # keep fetching dynamically generated values for every entry in the
                 # combination pool
