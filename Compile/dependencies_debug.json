@@ -1,0 +1,517 @@
+[
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/blog/posts",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "QueryResource": "page"
+        },
+        "ContainerName": "posts",
+        "PathContainerName": "posts",
+        "CandidateTypeNames": [
+          "post"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "page",
+        "ProducerParameterName": "page",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "Int"
+      },
+      "parameterKind": "Query"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/blog/posts",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "QueryResource": "per_page"
+        },
+        "ContainerName": "posts",
+        "PathContainerName": "posts",
+        "CandidateTypeNames": [
+          "post"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "per_page",
+        "ProducerParameterName": "page",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "Int"
+      },
+      "parameterKind": "Query"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/blog/posts",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "body",
+            "fullPath": {
+              "path": [
+                "body"
+              ]
+            }
+          }
+        },
+        "ContainerName": "posts",
+        "PathContainerName": "posts",
+        "CandidateTypeNames": [
+          "post"
+        ],
+        "AccessPath": "body",
+        "AccessPathParts": {
+          "path": [
+            "body"
+          ]
+        },
+        "ResourceName": "body",
+        "ProducerParameterName": "body",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/blog/posts",
+          "method": "Post"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "id",
+            "fullPath": {
+              "path": [
+                "id"
+              ]
+            }
+          }
+        },
+        "ContainerName": "posts",
+        "PathContainerName": "posts",
+        "CandidateTypeNames": [
+          "post"
+        ],
+        "AccessPath": "id",
+        "AccessPathParts": {
+          "path": [
+            "id"
+          ]
+        },
+        "ResourceName": "id",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "Int"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/blog/posts/{postId}",
+          "method": "Get"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "postId",
+            "pathToParameter": [
+              "api",
+              "blog",
+              "posts"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "posts",
+        "PathContainerName": "posts",
+        "CandidateTypeNames": [
+          "post"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "postId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "Int"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/api/blog/posts",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "id",
+              "fullPath": {
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "ContainerName": "posts",
+          "PathContainerName": "posts",
+          "CandidateTypeNames": [
+            "post"
+          ],
+          "AccessPath": "id",
+          "AccessPathParts": {
+            "path": [
+              "id"
+            ]
+          },
+          "ResourceName": "id",
+          "ProducerParameterName": "id",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "Int"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/blog/posts/{postId}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "postId",
+            "pathToParameter": [
+              "api",
+              "blog",
+              "posts"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "posts",
+        "PathContainerName": "posts",
+        "CandidateTypeNames": [
+          "post"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "postId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "Int"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/api/blog/posts",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "id",
+              "fullPath": {
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "ContainerName": "posts",
+          "PathContainerName": "posts",
+          "CandidateTypeNames": [
+            "post"
+          ],
+          "AccessPath": "id",
+          "AccessPathParts": {
+            "path": [
+              "id"
+            ]
+          },
+          "ResourceName": "id",
+          "ProducerParameterName": "id",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "Int"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/blog/posts/{postId}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "body",
+            "fullPath": {
+              "path": [
+                "body"
+              ]
+            }
+          }
+        },
+        "ContainerName": "posts",
+        "PathContainerName": "posts",
+        "CandidateTypeNames": [
+          "post"
+        ],
+        "AccessPath": "body",
+        "AccessPathParts": {
+          "path": [
+            "body"
+          ]
+        },
+        "ResourceName": "body",
+        "ProducerParameterName": "body",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/api/blog/posts",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "body",
+              "fullPath": {
+                "path": [
+                  "body"
+                ]
+              }
+            }
+          },
+          "ContainerName": "posts",
+          "PathContainerName": "posts",
+          "CandidateTypeNames": [
+            "post"
+          ],
+          "AccessPath": "body",
+          "AccessPathParts": {
+            "path": [
+              "body"
+            ]
+          },
+          "ResourceName": "body",
+          "ProducerParameterName": "body",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "String"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/blog/posts/{postId}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "checksum",
+            "fullPath": {
+              "path": [
+                "checksum"
+              ]
+            }
+          }
+        },
+        "ContainerName": "posts",
+        "PathContainerName": "posts",
+        "CandidateTypeNames": [
+          "post"
+        ],
+        "AccessPath": "checksum",
+        "AccessPathParts": {
+          "path": [
+            "checksum"
+          ]
+        },
+        "ResourceName": "checksum",
+        "ProducerParameterName": "checksum",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "String"
+      },
+      "parameterKind": "Body"
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/blog/posts/{postId}",
+          "method": "Put"
+        },
+        "ResourceReference": {
+          "BodyResource": {
+            "name": "id",
+            "fullPath": {
+              "path": [
+                "id"
+              ]
+            }
+          }
+        },
+        "ContainerName": "posts",
+        "PathContainerName": "posts",
+        "CandidateTypeNames": [
+          "post"
+        ],
+        "AccessPath": "id",
+        "AccessPathParts": {
+          "path": [
+            "id"
+          ]
+        },
+        "ResourceName": "id",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "Int"
+      },
+      "parameterKind": "Body"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/api/blog/posts",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "id",
+              "fullPath": {
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "ContainerName": "posts",
+          "PathContainerName": "posts",
+          "CandidateTypeNames": [
+            "post"
+          ],
+          "AccessPath": "id",
+          "AccessPathParts": {
+            "path": [
+              "id"
+            ]
+          },
+          "ResourceName": "id",
+          "ProducerParameterName": "id",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "Int"
+        }
+      }
+    }
+  },
+  {
+    "consumer": {
+      "id": {
+        "RequestId": {
+          "endpoint": "/api/blog/posts/{postId}",
+          "method": "Delete"
+        },
+        "ResourceReference": {
+          "PathResource": {
+            "name": "postId",
+            "pathToParameter": [
+              "api",
+              "blog",
+              "posts"
+            ],
+            "responsePath": {
+              "path": []
+            }
+          }
+        },
+        "ContainerName": "posts",
+        "PathContainerName": "posts",
+        "CandidateTypeNames": [
+          "post"
+        ],
+        "AccessPathParts": {
+          "path": []
+        },
+        "ResourceName": "postId",
+        "ProducerParameterName": "id",
+        "IsNestedBodyResource": false,
+        "PrimitiveType": "Int"
+      },
+      "parameterKind": "Path"
+    },
+    "producer": {
+      "ResponseObject": {
+        "id": {
+          "RequestId": {
+            "endpoint": "/api/blog/posts",
+            "method": "Post"
+          },
+          "ResourceReference": {
+            "BodyResource": {
+              "name": "id",
+              "fullPath": {
+                "path": [
+                  "id"
+                ]
+              }
+            }
+          },
+          "ContainerName": "posts",
+          "PathContainerName": "posts",
+          "CandidateTypeNames": [
+            "post"
+          ],
+          "AccessPath": "id",
+          "AccessPathParts": {
+            "path": [
+              "id"
+            ]
+          },
+          "ResourceName": "id",
+          "ProducerParameterName": "id",
+          "IsNestedBodyResource": false,
+          "PrimitiveType": "Int"
+        }
+      }
+    }
+  }
+]

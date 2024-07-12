@@ -1,0 +1,88 @@
+{
+  "/api/blog/posts": {
+    "GET": {
+      "Query": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "page"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "per_page"
+        }
+      ]
+    },
+    "POST": {
+      "Body": [
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "body"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "id"
+        }
+      ]
+    }
+  },
+  "/api/blog/posts/{postId}": {
+    "DELETE": {
+      "Path": [
+        {
+          "producer_endpoint": "/api/blog/posts",
+          "producer_method": "POST",
+          "producer_resource_name": "id",
+          "consumer_param": "postId"
+        }
+      ]
+    },
+    "GET": {
+      "Path": [
+        {
+          "producer_endpoint": "/api/blog/posts",
+          "producer_method": "POST",
+          "producer_resource_name": "id",
+          "consumer_param": "postId"
+        }
+      ]
+    },
+    "PUT": {
+      "Path": [
+        {
+          "producer_endpoint": "/api/blog/posts",
+          "producer_method": "POST",
+          "producer_resource_name": "id",
+          "consumer_param": "postId"
+        }
+      ],
+      "Body": [
+        {
+          "producer_endpoint": "/api/blog/posts",
+          "producer_method": "POST",
+          "producer_resource_name": "body",
+          "consumer_param": "body"
+        },
+        {
+          "producer_endpoint": "",
+          "producer_method": "",
+          "producer_resource_name": "",
+          "consumer_param": "checksum"
+        },
+        {
+          "producer_endpoint": "/api/blog/posts",
+          "producer_method": "POST",
+          "producer_resource_name": "id",
+          "consumer_param": "id"
+        }
+      ]
+    }
+  }
+}
