@@ -37,7 +37,8 @@ import os
 # Function to convert a list to JSON with index keys, values, and an additional parameter
 def list_to_json(values, outer_param):
     json_obj = {str(i): value for i, value in enumerate(values)}
-    json_obj["response_code"] = outer_param
+    json_obj["response_code"] = outer_param.status_code
+    json_obj["response_text"] = outer_param.status_text
     return json_obj
 
 # Function to append a list's JSON representation to a file if outer_param is not already present
@@ -55,10 +56,10 @@ def store_list_to_json(values, outer_param, filename):
         data = json.load(file)
     
     # Create a set of existing outer_param values
-    outer_param_set = {item["response_code"] for item in data}
+    outer_param_set = {item["response_text"] for item in data}
     
     # Check if outer_param already exists
-    if outer_param in outer_param_set:
+    if outer_param.status_text in outer_param_set:
         #print(f"'{outer_param}' already exists in the JSON file. Not appending.")
         return
     
