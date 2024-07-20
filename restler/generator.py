@@ -102,8 +102,10 @@ def gen_restler_fuzzable_string(**kwargs):
     if os.path.isfile(filename):
         with open(filename, 'r') as file:
             data = json.load(file)
+            length = len(data)
+            next_index = random.randrange(length)
         while True:
-            yield get_next_string(data[0][str(kwargs[EXAMPLE_ARG].idx)])
+            yield get_next_string(data[next_index][str(kwargs[EXAMPLE_ARG].idx)])
     else:
         yield get_next_string("hello")
 
@@ -113,8 +115,10 @@ def gen_restler_fuzzable_string_unquoted(**kwargs):
     if os.path.isfile(filename):
         with open(filename, 'r') as file:
             data = json.load(file)
+            length = len(data)
+            next_index = random.randrange(length)
         while True:
-            yield get_next_unquoted_string(data[0][str(kwargs[EXAMPLE_ARG].idx)])
+            yield get_next_unquoted_string(data[next_index][str(kwargs[EXAMPLE_ARG].idx)])
     else:
         yield get_next_unquoted_string("hello")
 
@@ -124,8 +128,10 @@ def gen_restler_fuzzable_number(**kwargs):
     if os.path.isfile(filename):
         with open(filename, 'r') as file:
             data = json.load(file)
+            length = len(data)
+            next_index = random.randrange(length)
         while True:
-            yield get_next_number(data[0][str(kwargs[EXAMPLE_ARG].idx)])
+            yield get_next_number(data[next_index][str(kwargs[EXAMPLE_ARG].idx)])
     else:
         yield get_next_number("hello")
     

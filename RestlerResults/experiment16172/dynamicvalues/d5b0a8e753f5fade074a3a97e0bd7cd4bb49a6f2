@@ -1,0 +1,42 @@
+[
+    {
+        "0": "POST ",
+        "1": "",
+        "2": "/",
+        "3": "api",
+        "4": "/",
+        "5": "blog",
+        "6": "/",
+        "7": "posts",
+        "8": " HTTP/1.1\r\n",
+        "9": "Accept: application/json\r\n",
+        "10": "Host: localhost:8888\r\n",
+        "11": "Content-Type: ",
+        "12": "application/json",
+        "13": "\r\n",
+        "14": "",
+        "15": "\r\n",
+        "16": "{",
+        "17": "\n    \"id\":",
+        "18": "1",
+        "19": ",\n    \"body\":",
+        "20": "\"1\"",
+        "21": "}",
+        "22": "\r\n",
+        "response_code": "400"
+    },
+    {
+        "0": "GET ",
+        "1": "",
+        "2": "/",
+        "3": "api",
+        "4": "/",
+        "5": "doc",
+        "6": " HTTP/1.1\r\n",
+        "7": "Accept: application/json\r\n",
+        "8": "Host: localhost:8888\r\n",
+        "9": "",
+        "10": "\r\n",
+        "response_code": "200"
+    }
+]
