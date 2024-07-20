@@ -548,7 +548,7 @@ class Sequence(object):
                     sequence_failed = True
                     break
                 else:
-                    store_list_to_json(mutated_values,prev_response.status_code,request.hex_definition)
+                    store_list_to_json(mutated_values,prev_response,request.hex_definition)
                 if parser_threw_exception:
                     logger.write_to_main("Error: Parser exception occurred during valid sequence re-rendering.\n")
                     sequence_failed = True
@@ -679,7 +679,7 @@ class Sequence(object):
                 BugBuckets.Instance().update_bug_buckets(
                     self, response.status_code, lock=lock)
             else:
-                store_list_to_json(mutated_values,response._status_code,request.hex_definition)
+                store_list_to_json(mutated_values,response,request.hex_definition)
             # register latest client/server interaction
             self.status_codes.append(status_codes_monitor.RequestExecutionStatus(timestamp_micro,
                                                                                  request.hex_definition,
