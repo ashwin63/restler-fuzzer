@@ -1,0 +1,16 @@
+[
+    {
+        "0": "GET ",
+        "1": "",
+        "2": "/",
+        "3": "api",
+        "4": "/",
+        "5": "doc",
+        "6": " HTTP/1.1\r\n",
+        "7": "Accept: application/json\r\n",
+        "8": "Host: localhost:8888\r\n",
+        "9": "",
+        "10": "\r\n",
+        "response_code": "200"
+    }
+]

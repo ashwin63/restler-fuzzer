@@ -5,7 +5,7 @@ import string
 import itertools
 import subprocess
 import re
-import os, json
+import os, json, random
 import base64  
 import utils.logger as logger
 random_seed=time.time()
@@ -16,6 +16,8 @@ EXAMPLE_ARG = "req"
 def get_next_val(fuzzable_integer):
     #return subprocess.run('echo "ashwin"',capture_output= True)
     #return subprocess.run(['"ashwin" |radamsa'], capture_output=True)
+    return "1"
+    '''
     while True:
         command = 'echo ' + fuzzable_integer + ' | radamsa'
         result = subprocess.run(command, shell=True, capture_output=True)
@@ -27,6 +29,7 @@ def get_next_val(fuzzable_integer):
         
         if filtered_output:
             return filtered_output.strip()
+    '''
         
 def get_next_string(fuzzable_string: str) -> str:
     """
@@ -38,6 +41,7 @@ def get_next_string(fuzzable_string: str) -> str:
     Returns:
     - str: The generated string.
     """
+    return "1"
     command = 'echo '+ fuzzable_string +' | radamsa'
     result = subprocess.run(command, shell=True, capture_output=True)
     
@@ -63,12 +67,14 @@ def get_next_unquoted_string(fuzzable_unquoted_string: str) -> str:
     Returns:
     - str: The generated unquoted string.
     """
+    return "1"
     while True:
         string_val = get_next_string(fuzzable_unquoted_string)
         unquoted_string = string_val.strip('"')
         return unquoted_string
     
 def get_next_number(fuzzable_number):
+    return "1"
     while True:
         command = 'echo ' + fuzzable_number +' | radamsa --mutations num'  # Using a simple base number for mutations
         result = subprocess.run(command, shell=True, capture_output=True, text=True)
@@ -83,8 +89,10 @@ def gen_restler_fuzzable_int(**kwargs):
     if os.path.isfile(filename):
         with open(filename, 'r') as file:
             data = json.load(file)
+            length = len(data)
+            next_index = random.randrange(length)
         while True:
-           yield get_next_val(data[0][str(kwargs[EXAMPLE_ARG].idx)])
+           yield get_next_val(data[next_index][str(kwargs[EXAMPLE_ARG].idx)])
     else:
         yield get_next_val("1")
 
@@ -129,3 +137,4 @@ value_generators = {
    # "restler_fuzzable_string_unquoted": gen_restler_fuzzable_string_unquoted
 }
 #print(get_next_val("sample_file_name_not_used"))
+

@@ -1,0 +1,16 @@
+{
+    "status_code": "500",
+    "checker_name": "main_driver",
+    "reproducible": true,
+    "verb": "POST",
+    "endpoint": "/api/blog/posts",
+    "status_text": "Internal Server Error",
+    "request_sequence": [
+        {
+            "producer_timing_delay": 0,
+            "max_async_wait_time": 0,
+            "replay_request": "POST /api/blog/posts HTTP/1.1\r\nAccept: application/json\r\nHost: localhost:8888\r\nContent-Type: application/json\r\n\r\n{\n    \"id\":99,\n    \"body\":\"my first blog post\"}\r\n",
+            "response": "HTTP/1.1 500 Internal Server Error\r\ndate: Sat, 20 Jul 2024 03:05:43 GMT\r\nserver: uvicorn\r\ncontent-length: 21\r\ncontent-type: text/plain; charset=utf-8\r\n\r\nInternal Server Error"
+        }
+    ]
+}

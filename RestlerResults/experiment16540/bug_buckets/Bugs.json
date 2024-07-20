@@ -1,0 +1,5 @@
+{"bugs":[{
+    "filepath": "main_driver_500_1.json",
+    "reproducible": true,
+    "checker_name": "main_driver",
+    "error_code": "500"}]}
