@@ -38,7 +38,7 @@ import os
 def list_to_json(values, outer_param):
     json_obj = {str(i): value for i, value in enumerate(values)}
     json_obj["response_code"] = outer_param.status_code
-    json_obj["response_text"] = outer_param.status_text
+    json_obj["response_text"] = outer_param.json_body
     return json_obj
 
 # Function to append a list's JSON representation to a file if outer_param is not already present
