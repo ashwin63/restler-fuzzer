@@ -74,7 +74,7 @@ class DemoChecker(CheckerBase):
         checked_seq.append_data_to_sent_list("-", "GET /", None,  HttpResponse(), max_async_wait_time=req_async_wait)
 
         # Render the current request combination
-        rendered_data, parser, tracked_parameters, updated_writer_variables, replay_blocks = \
+        rendered_data, parser, tracked_parameters, updated_writer_variables, replay_blocks,_ = \
             next(last_request.render_iter(self._req_collection.candidate_values_pool,
                                           skip=last_request._current_combination_id - 1,
                                           preprocessing=False))
