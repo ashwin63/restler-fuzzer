@@ -307,9 +307,11 @@ class Request(object):
         self._rendered_values_cache = RenderedValuesCache()
         self._last_rendered_schema_request = None
         self._is_resource_generator = None
-
+        
         self._random = Random(Settings().random_seed)
-
+        #Custom variables added
+        self.temp_sequence_hex = None # used to store the sequence hex for use in generator code to mutate from specific sequence values
+        self.generator_value_idx = 0 # custom variable used to pass the idx at which we are trying to get new values for this request
         # Check for empty request before assigning ids
         if self._definition:
             self._set_hex_definitions(requestId)
@@ -1062,7 +1064,7 @@ class Request(object):
 
 
     def render_iter(self, candidate_values_pool, skip=0, preprocessing=False, prev_rendered_values=None,
-                    value_list=False, replay_blocks=False):
+                    value_list=False, replay_blocks=True):
         """ This is the core method that renders values combinations in a
         request template. It basically is a generator which lazily iterates over
         a pool of possible combination of values that fit the template of the

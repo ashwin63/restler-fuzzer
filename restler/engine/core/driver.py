@@ -15,7 +15,7 @@ from multiprocessing.dummy import Pool as ThreadPool
 from collections import deque
 import re
 from random import Random
-
+import json
 from restler_settings import Settings
 import utils.logger as logger
 from utils.logging.trace_db import SequenceTracker, get_sequences_from_db
@@ -320,6 +320,54 @@ def render_parallel(seq_collection, fuzzing_pool, checkers, generation, global_l
     Monitor().current_fuzzing_generation += 1
 
     return seq_collection
+def store_renderings_to_json(rendering):
+    json_data = {}
+    filename = os.path.join(logger.DYNAMIC_VALUES_DIR, "sequence_info")
+
+    # Ensure the file exists with an empty JSON object if missing
+    if not os.path.isfile(filename):
+        with open(filename, 'w') as file:
+            json.dump({}, file)
+
+    # Read existing data from file
+    with open(filename, 'r') as file:
+        try:
+            existing_data = json.load(file)
+        except json.JSONDecodeError:
+            existing_data = {}  # Handle corrupted or empty file gracefully
+
+    # Extract request and response details
+    for seq in rendering:
+        seq_id = seq.hex_definition  # Unique sequence identifier
+        if seq_id not in json_data:
+            json_data[seq_id] = {}
+
+        for temp in seq._sent_request_data_list:
+            req_id = temp.method_endpoint_hex_definition  # Unique request identifier
+
+            match = re.search(r"HTTP/\d\.\d (\d{3})", temp.response if temp.response else "")
+            status_code = match.group(1) if match else "unknown"  # Fallback to "unknown" if no match
+
+            json_obj = {str(i+1): value[1] for i, value in enumerate(temp.replay_blocks)}
+            json_obj["resp"] = status_code
+
+            json_data[seq_id][req_id] = json_obj  # Store request inside the sequence
+
+    # Merge with existing data
+    for seq_id, requests in json_data.items():
+        if seq_id in existing_data:
+            existing_data[seq_id].update(requests)
+        else:
+            existing_data[seq_id] = requests
+
+    # Write updated data to file
+    with open(filename, 'w') as file:
+        json.dump(existing_data, file, indent=4)
+
+    return existing_data  # Return updated data if needed
+
+
+
 
 def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global_lock, garbage_collector):
     """ Does rendering work sequential by invoking "render_one" multiple
@@ -328,10 +376,19 @@ def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global
     """
     prev_len = len(seq_collection)
     for ith in range(prev_len):
-        valid_renderings = render_one(seq_collection[ith], ith, checkers, generation, global_lock, garbage_collector)
-
-        # Extend collection by adding all valid renderings
-        seq_collection.extend(valid_renderings)
+        #gonna iterate over each sequence object setting different requests as last_request
+        temp_copy_requests = seq_collection[ith].requests
+        for req in temp_copy_requests:
+            temp_sequence = seq_collection[ith].__copy__()
+            len1 = len(temp_sequence.requests)
+            for i in range(len1):
+                temp_sequence.requests.append(temp_sequence.requests.pop(0))
+                valid_renderings = render_one(temp_sequence, ith, checkers, generation, global_lock, garbage_collector)
+                store_renderings_to_json(valid_renderings)
+                seq_collection.extend(valid_renderings)
+            # Extend collection by adding all valid renderings
+            # #store this valid renderings for future value generation
+            
 
     if len(seq_collection[prev_len:]) == 0:
         raise ExhaustSeqCollectionException("")

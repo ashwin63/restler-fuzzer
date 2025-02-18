@@ -514,6 +514,7 @@ class Sequence(object):
             response_datetime_str = None
             for i in range(len(self.requests) - 1):
                 prev_request = self.requests[i]
+                prev_request.temp_sequence_hex = self.hex_definition
                 prev_rendered_data, prev_parser, tracked_parameters, updated_writer_variables, replay_blocks,mutated_values =\
                                 prev_request.render_current(candidate_values_pool,
                                                             preprocessing=preprocessing,
@@ -548,7 +549,7 @@ class Sequence(object):
                     sequence_failed = True
                     break
                 else:
-                    store_list_to_json(mutated_values,prev_response,request.hex_definition)
+                    store_list_to_json(mutated_values,prev_response.status_code,request.hex_definition)
                 if parser_threw_exception:
                     logger.write_to_main("Error: Parser exception occurred during valid sequence re-rendering.\n")
                     sequence_failed = True
@@ -604,9 +605,9 @@ class Sequence(object):
             if lock is not None:
                 lock.release()
             return duplicate
-
+        
         request = self.last_request
-
+        request.temp_sequence_hex = self.hex_definition
         # for clarity reasons, don't log requests whose render iterator is over
         if request._current_combination_id <\
                 request.num_combinations(candidate_values_pool):
@@ -679,7 +680,7 @@ class Sequence(object):
                 BugBuckets.Instance().update_bug_buckets(
                     self, response.status_code, lock=lock)
             else:
-                store_list_to_json(mutated_values,response,request.hex_definition)
+                store_list_to_json(mutated_values,response._status_code,request.hex_definition)
             # register latest client/server interaction
             self.status_codes.append(status_codes_monitor.RequestExecutionStatus(timestamp_micro,
                                                                                  request.hex_definition,
@@ -867,7 +868,7 @@ class Sequence(object):
                 # render the request
                 # Note: use_last_cached_rendering MUST be set to false here, since the replay blocks
                 # contain different values than the cached rendering
-                rendered_data, parser, tracked_parameters, updated_writer_variables, replay_blocks =\
+                rendered_data, parser, tracked_parameters, updated_writer_variables, replay_blocks,_ =\
                     req_copy.render_current(candidate_values_pool, preprocessing=False, use_last_cached_rendering=False)
 
                 response, resource_error, parser_exception_occurred, timing_delay, response_datetime_str, timestamp_micro = \

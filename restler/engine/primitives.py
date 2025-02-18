@@ -332,6 +332,7 @@ class CandidateValuesPool(object):
 
         def get_custom_value_generator(value_generator, examples=examples,req = None):
             def value_generator_wrapper(done_tracker, generator_idx):
+                req.generator_value_idx = generator_idx
                 iter = value_generator(examples=examples,req = req)
                 count = 0
                 while True:
