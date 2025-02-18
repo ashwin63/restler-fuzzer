@@ -58,7 +58,7 @@ class InvalidDynamicObjectChecker(CheckerBase):
         InvalidDynamicObjectChecker.generation_executed_requests[generation].add(last_request.hex_definition)
 
         # Get the current rendering of the sequence, which will be the valid rendering of the last request
-        last_rendering, last_request_parser, tracked_parameters, updated_writer_variables, replay_blocks =\
+        last_rendering, last_request_parser, tracked_parameters, updated_writer_variables, replay_blocks,_ =\
             last_request.render_current(self._req_collection.candidate_values_pool)
 
         # Execute the sequence up until the last request
