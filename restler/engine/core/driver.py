@@ -348,11 +348,10 @@ def store_renderings_to_json(rendering):
 
             match = re.search(r"HTTP/\d\.\d (\d{3})", temp.response if temp.response else "")
             status_code = match.group(1) if match else "unknown"  # Fallback to "unknown" if no match
-
-            json_obj = {str(i+1): value[1] for i, value in enumerate(temp.replay_blocks)}
-            json_obj["resp"] = status_code
-
-            json_data[seq_id][req_id] = json_obj  # Store request inside the sequence
+            if temp.replay_blocks is not None:
+                json_obj = {str(i+1): value[1] for i, value in enumerate(temp.replay_blocks)}
+                json_obj["resp"] = status_code
+                json_data[seq_id][req_id] = json_obj  # Store request inside the sequence
 
     # Merge with existing data
     for seq_id, requests in json_data.items():
