@@ -323,7 +323,8 @@ def render_parallel(seq_collection, fuzzing_pool, checkers, generation, global_l
 def store_renderings_to_json(rendering):
     json_data = {}
     filename = os.path.join(logger.DYNAMIC_VALUES_DIR, "sequence_info")
-
+    if rendering is None:
+        return
     # Ensure the file exists with an empty JSON object if missing
     if not os.path.isfile(filename):
         with open(filename, 'w') as file:
