@@ -37,8 +37,7 @@ import os
 # Function to convert a list to JSON with index keys, values, and an additional parameter
 def list_to_json(values, outer_param):
     json_obj = {str(i): value for i, value in enumerate(values)}
-    json_obj["response_code"] = outer_param.status_code
-    json_obj["response_text"] = outer_param.json_body
+    json_obj["response_code"] = outer_param
     return json_obj
 
 # Function to append a list's JSON representation to a file if outer_param is not already present
@@ -56,10 +55,10 @@ def store_list_to_json(values, outer_param, filename):
         data = json.load(file)
     
     # Create a set of existing outer_param values
-    outer_param_set = {item["response_text"] for item in data}
+    outer_param_set = {item["response_code"] for item in data}
     
     # Check if outer_param already exists
-    if outer_param.status_text in outer_param_set:
+    if outer_param in outer_param_set:
         #print(f"'{outer_param}' already exists in the JSON file. Not appending.")
         return
     
@@ -154,6 +153,9 @@ class Sequence(object):
         self.executed_requests_count = 0
 
         self._used_cached_prefix = False
+        #custom change
+        #keeps track of the number of mutations done on the request
+        self.mutations_count = 0
 
     def __iter__(self):
         """ Iterate over Sequences objects. """
@@ -269,7 +271,9 @@ class Sequence(object):
         """
         return self._sent_request_data_list
 
-
+    @property
+    def sequence_score(self):
+        return self.mutations_count + len(self.requests)
     @property
     def methods_endpoints_hex_definition(self):
         """ Returns the concatenation of the method_endpoint_hex_definitions
@@ -608,6 +612,7 @@ class Sequence(object):
             return duplicate
         
         request = self.last_request
+        self.mutations_count+=1
         request.temp_sequence_hex = self.hex_definition
         # for clarity reasons, don't log requests whose render iterator is over
         if request._current_combination_id <\
@@ -680,8 +685,8 @@ class Sequence(object):
             if response.has_bug_code():
                 BugBuckets.Instance().update_bug_buckets(
                     self, response.status_code, lock=lock)
-            else:
-                store_list_to_json(mutated_values,response._status_code,request.hex_definition)
+            #else:
+            #    store_list_to_json(mutated_values,response._status_code,request.hex_definition)
             # register latest client/server interaction
             self.status_codes.append(status_codes_monitor.RequestExecutionStatus(timestamp_micro,
                                                                                  request.hex_definition,
