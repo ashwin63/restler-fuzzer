@@ -377,7 +377,7 @@ def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global
     similar with "render_one".
     """
     prev_len = len(seq_collection)
-    seq_collection.sort(key = lambda x:x.sequence_score) 
+    #seq_collection.sort(key = lambda x:x.sequence_score) 
     for ith in range(prev_len):
         #gonna iterate over each sequence object setting different requests as last_request
         temp_copy_requests = seq_collection[ith].requests
