@@ -42,6 +42,7 @@ def list_to_json(values, outer_param):
 
 # Function to append a list's JSON representation to a file if outer_param is not already present
 def store_list_to_json(values, outer_param, filename):
+    return
     new_json = list_to_json(values, outer_param)
     filename = os.path.join(logger.DYNAMIC_VALUES_DIR,filename)
     # Check if file exists
