@@ -379,6 +379,7 @@ def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global
     prev_len = len(seq_collection)
     #seq_collection.sort(key = lambda x:x.sequence_score) 
     for ith in range(prev_len):
+        break
         #gonna iterate over each sequence object setting different requests as last_request
         temp_copy_requests = seq_collection[ith].requests
         #valid_renderings = render_one(seq_collection[ith], ith, checkers, generation, global_lock, garbage_collector)
@@ -403,8 +404,6 @@ def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global
     for i in range(prev_len):
         valid_renderings = render_one(seq_collection[ith], ith, checkers, generation, global_lock, garbage_collector)
         seq_collection.extend(valid_renderings)
-
-
     if len(seq_collection[prev_len:]) == 0:
         raise ExhaustSeqCollectionException("")
 
