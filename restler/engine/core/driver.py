@@ -381,22 +381,28 @@ def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global
     for ith in range(prev_len):
         #gonna iterate over each sequence object setting different requests as last_request
         temp_copy_requests = seq_collection[ith].requests
-        valid_renderings = render_one(seq_collection[ith], ith, checkers, generation, global_lock, garbage_collector)
+        #valid_renderings = render_one(seq_collection[ith], ith, checkers, generation, global_lock, garbage_collector)
  
          # Extend collection by adding all valid renderings
-        seq_collection.extend(valid_renderings)
-        continue
+        
+        #seq_collection.extend(valid_renderings)
+        #continue
         for req in temp_copy_requests:
             temp_sequence = seq_collection[ith].__copy__()
             len1 = len(temp_sequence.requests)
             for i in range(len1):
                 temp_sequence.requests.append(temp_sequence.requests.pop(0))
-                valid_renderings = render_one(temp_sequence, ith, checkers, generation, global_lock, garbage_collector)
-                store_renderings_to_json(valid_renderings)
-                seq_collection.extend(valid_renderings)
+                seq_collection.add(temp_sequence)
+                #valid_renderings = render_one(temp_sequence, ith, checkers, generation, global_lock, garbage_collector)
+                #store_renderings_to_json(valid_renderings)
+                #seq_collection.extend(valid_renderings)
             # Extend collection by adding all valid renderings
             # #store this valid renderings for future value generation
-            
+    prev_len = len(seq_collection)
+    for i in range(prev_len):
+        valid_renderings = render_one(seq_collection[ith], ith, checkers, generation, global_lock, garbage_collector)
+        seq_collection.extend(valid_renderings)
+
 
     if len(seq_collection[prev_len:]) == 0:
         raise ExhaustSeqCollectionException("")
