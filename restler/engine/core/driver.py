@@ -388,6 +388,7 @@ def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global
         #seq_collection.extend(valid_renderings)
         #continue
         for req in temp_copy_requests:
+            break
             temp_sequence = seq_collection[ith].__copy__()
             len1 = len(temp_sequence.requests)
             for i in range(len1):
