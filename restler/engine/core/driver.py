@@ -392,7 +392,7 @@ def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global
             len1 = len(temp_sequence.requests)
             for i in range(len1):
                 temp_sequence.requests.append(temp_sequence.requests.pop(0))
-                seq_collection.add(temp_sequence)
+                seq_collection.append(temp_sequence)
                 #valid_renderings = render_one(temp_sequence, ith, checkers, generation, global_lock, garbage_collector)
                 #store_renderings_to_json(valid_renderings)
                 #seq_collection.extend(valid_renderings)
