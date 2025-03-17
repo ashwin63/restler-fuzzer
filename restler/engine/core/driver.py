@@ -398,7 +398,8 @@ def render_sequential_extend(seq_collection, fuzzing_pool, checkers, generation,
         #copy the ith sequence nd crreate a new one
         temp_requests_list = seq_collection[i].requests
         for idx in range(len(temp_requests_list)):
-            temp_sequence = seq_collection[ith].__copy__()
+            temp_sequence = seq_collection[i].__copy__()
+            temp_sequence.requests = copy.copy(seq_collection[i].requests)
             temp_sequence.requests.append(temp_sequence.requests.pop(0))
             seq_collection.append(temp_sequence)
             #req_copy = copy.copy(req)
