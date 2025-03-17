@@ -368,10 +368,30 @@ def store_renderings_to_json(rendering):
 
     return existing_data  # Return updated data if needed
 
-
-
-
 def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global_lock, garbage_collector):
+    """ Does rendering work sequential by invoking "render_one" multiple
+    times. For brevity we skip arguments and return types, since they are
+    similar with "render_one".
+    """
+    prev_len = len(seq_collection)
+    for ith in range(prev_len):
+        valid_renderings = render_one(seq_collection[ith], ith, checkers, generation, global_lock, garbage_collector)
+
+        # Extend collection by adding all valid renderings
+        seq_collection.extend(valid_renderings)
+
+    if len(seq_collection[prev_len:]) == 0:
+        raise ExhaustSeqCollectionException("")
+
+    # Increase internal fuzzing generations' counter. Since the
+    # constructor of RequestCollection starts this counter from zero,
+    # the counter will be equal to length + 1 after the following line.
+    Monitor().current_fuzzing_generation += 1
+
+    return seq_collection[prev_len:]
+
+
+def render_sequential_test(seq_collection, fuzzing_pool, checkers, generation, global_lock, garbage_collector):
     """ Does rendering work sequential by invoking "render_one" multiple
     times. For brevity we skip arguments and return types, since they are
     similar with "render_one".
