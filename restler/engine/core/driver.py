@@ -398,8 +398,9 @@ def render_sequential_extend(seq_collection, fuzzing_pool, checkers, generation,
         #copy the ith sequence nd crreate a new one
         temp_requests_list = seq_collection[i].requests
         for idx in range(len(temp_requests_list)):
-            print("1")
-            break
+            temp_sequence = seq_collection[ith].__copy__()
+            temp_sequence.requests.append(temp_sequence.requests.pop(0))
+            seq_collection.append(temp_sequence)
             #req_copy = copy.copy(req)
             #req_copy._current_combination_id = 0
             #if seq.is_empty_sequence():
