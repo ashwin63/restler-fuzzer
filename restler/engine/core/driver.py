@@ -102,6 +102,7 @@ def extend(seq_collection, fuzzing_requests, lock, random_gen):
                 continue
 
             extended_requests.append(req)
+            
             req_copy = copy.copy(req)
             req_copy._current_combination_id = 0
             if seq.is_empty_sequence():
@@ -373,6 +374,7 @@ def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global
     times. For brevity we skip arguments and return types, since they are
     similar with "render_one".
     """
+    seq_collection = render_sequential_extend(seq_collection, fuzzing_pool, checkers, generation, global_lock, garbage_collector)
     prev_len = len(seq_collection)
     for ith in range(prev_len):
         valid_renderings = render_one(seq_collection[ith], ith, checkers, generation, global_lock, garbage_collector)
@@ -390,7 +392,21 @@ def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global
 
     return seq_collection[prev_len:]
 
-
+def render_sequential_extend(seq_collection, fuzzing_pool, checkers, generation, global_lock, garbage_collector):
+    len = len(seq_collection)
+    for i in range(len):
+        #copy the ith sequence nd crreate a new one
+        temp_requests_list = seq_collection[i].requests
+        for idx in len(temp_requests_list):
+            print("1")
+            break
+            #req_copy = copy.copy(req)
+            #req_copy._current_combination_id = 0
+            #if seq.is_empty_sequence():
+            #    new_seq = sequences.Sequence(req_copy)
+            #else:
+            #    new_seq = seq + sequences.Sequence(req_copy)
+    return seq_collection
 def render_sequential_test(seq_collection, fuzzing_pool, checkers, generation, global_lock, garbage_collector):
     """ Does rendering work sequential by invoking "render_one" multiple
     times. For brevity we skip arguments and return types, since they are
