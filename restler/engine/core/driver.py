@@ -322,6 +322,7 @@ def render_parallel(seq_collection, fuzzing_pool, checkers, generation, global_l
 
     return seq_collection
 def store_renderings_to_json(rendering):
+    return
     json_data = {}
     filename = os.path.join(logger.DYNAMIC_VALUES_DIR, "sequence_info")
     if rendering is None:
