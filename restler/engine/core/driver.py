@@ -393,8 +393,8 @@ def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global
     return seq_collection[prev_len:]
 
 def render_sequential_extend(seq_collection, fuzzing_pool, checkers, generation, global_lock, garbage_collector):
-    len = len(seq_collection)
-    for i in range(len):
+    len1 = len(seq_collection)
+    for i in range(len1):
         #copy the ith sequence nd crreate a new one
         temp_requests_list = seq_collection[i].requests
         for idx in len(temp_requests_list):
