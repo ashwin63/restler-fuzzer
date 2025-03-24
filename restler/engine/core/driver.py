@@ -375,7 +375,7 @@ def render_sequential(seq_collection, fuzzing_pool, checkers, generation, global
     times. For brevity we skip arguments and return types, since they are
     similar with "render_one".
     """
-    #seq_collection = render_sequential_extend(seq_collection, fuzzing_pool, checkers, generation, global_lock, garbage_collector)
+    seq_collection = render_sequential_extend(seq_collection, fuzzing_pool, checkers, generation, global_lock, garbage_collector)
     prev_len = len(seq_collection)
     for ith in range(prev_len):
         valid_renderings = render_one(seq_collection[ith], ith, checkers, generation, global_lock, garbage_collector)
