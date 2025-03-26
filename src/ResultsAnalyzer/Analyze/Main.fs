@@ -56,14 +56,20 @@ let main (args:AnalyzeArgs) =
                     d.restler_custom_payload_uuid4_suffix
                     |> Option.defaultValue Map.empty
                     |> Map.toSeq
-                    |> Seq.map (fun (_jsonProperty, jsonValue) -> new System.Text.RegularExpressions.Regex(jsonValue))
+                    |> Seq.choose (fun (_jsonProperty, jsonValue) ->
+                        try
+                            Some(new System.Text.RegularExpressions.Regex(jsonValue))
+                        with
+                        | :? System.ArgumentException as ex -> 
+                            eprintfn "Skipping invalid regex for property: %s. Error: %s" _jsonProperty ex.Message
+                            None)
                     |> Seq.toList
                 | Choice2Of2 e ->
                     eprintfn "Cannot deserialize mutations dictionary: %s" e
-                    exit 1
+                    List.empty // Return an empty list instead of exiting
             else
                 eprintfn "Invalid Path to mutations dictionary: %s" dictionaryFilePath
-                exit 1
+                List.empty
 
     let abstractionOptions =
         { AbstractionOptions.None with
