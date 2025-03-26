@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /// Given a path to REST-ler network logs in the expected format,
@@ -46,34 +46,24 @@ let main (args:AnalyzeArgs) =
         else
             [|args.logsPath|]
 
-
-     let dictionarySuffixes =
-    match args.fuzzingDictionaryPath with
-    | None -> List.empty
-    | Some dictionaryFilePath ->
-        if File.Exists dictionaryFilePath then
-            match Restler.Utilities.JsonSerialization.tryDeserializeFile<Restler.Dictionary.MutationsDictionary> dictionaryFilePath with
-            | Choice1Of2 d ->
-                d.restler_custom_payload_uuid4_suffix
-                |> Option.defaultValue Map.empty
-                |> Map.toSeq
-                |> Seq.choose (fun (_jsonProperty, jsonValue) ->
-                    try
-                        Some(new System.Text.RegularExpressions.Regex(jsonValue))
-                    with
-                    | :? System.ArgumentException as ex -> 
-                        eprintfn "Skipping invalid regex for property: %s. Error: %s" _jsonProperty ex.Message
-                        None)
-                |> Seq.toList
-            | Choice2Of2 e ->
-                eprintfn "Cannot deserialize mutations dictionary: %s" e
-                List.empty // Return an empty list instead of exiting
-        else
-            eprintfn "Invalid Path to mutations dictionary: %s" dictionaryFilePath
-            List.empty // Return an empty list instead of exiting
-
-
-
+    let dictionarySuffixes =
+        match args.fuzzingDictionaryPath with
+        | None -> List.empty
+        | Some dictionaryFilePath ->
+            if File.Exists dictionaryFilePath then
+                match Restler.Utilities.JsonSerialization.tryDeserializeFile<Restler.Dictionary.MutationsDictionary> dictionaryFilePath with
+                | Choice1Of2 d ->
+                    d.restler_custom_payload_uuid4_suffix
+                    |> Option.defaultValue Map.empty
+                    |> Map.toSeq
+                    |> Seq.map (fun (_jsonProperty, jsonValue) -> new System.Text.RegularExpressions.Regex(jsonValue))
+                    |> Seq.toList
+                | Choice2Of2 e ->
+                    eprintfn "Cannot deserialize mutations dictionary: %s" e
+                    exit 1
+            else
+                eprintfn "Invalid Path to mutations dictionary: %s" dictionaryFilePath
+                exit 1
 
     let abstractionOptions =
         { AbstractionOptions.None with
