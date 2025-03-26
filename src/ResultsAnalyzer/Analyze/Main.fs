@@ -46,7 +46,8 @@ let main (args:AnalyzeArgs) =
         else
             [|args.logsPath|]
 
-    let dictionarySuffixes =
+
+     let dictionarySuffixes =
     match args.fuzzingDictionaryPath with
     | None -> List.empty
     | Some dictionaryFilePath ->
@@ -70,6 +71,7 @@ let main (args:AnalyzeArgs) =
         else
             eprintfn "Invalid Path to mutations dictionary: %s" dictionaryFilePath
             List.empty // Return an empty list instead of exiting
+
 
 
 
